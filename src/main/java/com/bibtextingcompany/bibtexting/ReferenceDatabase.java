@@ -90,10 +90,14 @@ public class ReferenceDatabase {
     public List<Reference> find(String title) {
         
         String searchTitle = trimAndLowercaseString(title);
-        List<Reference> list = new ArrayList();
        // System.out.println("search title: "+searchTitle);
+        String starSearch = starSearch(searchTitle);
+      //  System.out.println("find: "+searchTitle);
+        return generateList(searchTitle, starSearch);
+    }
+    
+    private String starSearch(String searchTitle) {
         String starSearch = searchTitle;
-
         if (starSearch.contains("*")) {
             StringBuilder sb = new StringBuilder("");
             for (int i = 0; i < searchTitle.length(); i++) {
@@ -107,7 +111,11 @@ public class ReferenceDatabase {
         } else {
             starSearch = null;
         }
-      //  System.out.println("find: "+searchTitle);
+        return starSearch;
+    }
+    
+    private List<Reference> generateList(String searchTitle, String starSearch) {
+        List<Reference> list = new ArrayList();
         for (Reference reference : referencemap.values()) {
         //    System.out.println("Ref: "+reference.getTitle());
             String referenceTitle = trimAndLowercaseString(reference.getTitle());
@@ -118,7 +126,6 @@ public class ReferenceDatabase {
                     list.add(reference);
                 }
             }
-
         }
         return list;
     }
